@@ -141,7 +141,7 @@ const FileExplorer = ({ files = [], setFiles, onFileSelect, onFileDelete, select
             '&:hover .file-icons': {
               visibility: 'visible',
             },
-            bgcolor: isSelected ? '#e0e0e0' : 'transparent',
+            bgcolor: isSelected ? '#B6BBC4' : 'transparent',
           }}
           onClick={() => isFolder ? handleSelectFolder(file.id) : onFileSelect(file)}
         >
@@ -231,16 +231,16 @@ const FileExplorer = ({ files = [], setFiles, onFileSelect, onFileDelete, select
   return (
     <Box height="100vh" bgcolor="#F5F5F5" pb={1}>
       <List
-        sx={{ width: '100%', maxWidth: 360, height: '100%', '& .css-cveggr-MuiListItemIcon-root': { minWidth: '20px' } , overflow:'scroll',scrollbarWidth:'none'}}
+        sx={{ width: '100%', maxWidth: 360, height: '100%', '& .css-cveggr-MuiListItemIcon-root': { minWidth: '200px' } , overflow:'scroll',scrollbarWidth:'none'}}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader
             component="div"
             id="nested-list-subheader"
-            sx={{ bgcolor: '#D8D8D8', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', '& .css-1taviwp-MuiListSubheader-root': { lineHeight: '0' } }}
+            sx={{ bgcolor: '#D6FAFF', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', '& .css-1taviwp-MuiListSubheader-root': { lineHeight: '0' } }}
           >
-            PROJECT
+            FILE EXPLORER
             <Box display="flex" justifyContent="center" alignItems="center" sx={{ gap: '8px' }}>
               <NoteAddIcon sx={{ cursor: 'pointer', fontSize: '18px' }} onClick={() => handleCreateItem('file')} />
               <CreateNewFolderIcon sx={{ cursor: 'pointer', fontSize: '18px' }} onClick={() => handleCreateItem('folder')} />

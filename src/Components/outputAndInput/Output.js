@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box,TextField, Typography} from '@mui/material';
+import { Box, Typography} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const Output = () => {
@@ -10,7 +10,7 @@ const Output = () => {
             <Typography>Output: </Typography>
             <CloseIcon/>
             </Box>
-       <Box width='100%' height='100%' sx={{background:'white',padding:'10px'}}>
+       <Box width='100%' height='100%' sx={{background:'white',padding:'10px',overflow:'scroll'}}>
        <Box>
         Click 'Run' to see the Output
        </Box>
