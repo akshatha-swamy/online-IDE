@@ -1,5 +1,4 @@
-import React,{useState} from 'react'
-import InputLabel from '@mui/material/InputLabel';
+import React,{useState} from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -41,6 +40,7 @@ const LanguageSelector = () => {
           <MenuItem value="python">Python</MenuItem>
           <MenuItem value="java">Java</MenuItem>
           <MenuItem value='c++'>C++</MenuItem>
+          <MenuItem value='c++'>C</MenuItem>
         </Select>
         
       </FormControl>

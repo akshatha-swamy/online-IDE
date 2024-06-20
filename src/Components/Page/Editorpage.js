@@ -89,6 +89,10 @@ const Editorpage = () => {
                 return 'python';
             case 'java':
                 return 'java';
+            case 'c':
+                return 'c';
+            case 'cpp':
+                return 'cpp';
             default:
                 return 'plaintext';
         }
@@ -121,15 +125,17 @@ const Editorpage = () => {
                             selectedFileId={selectedFile?.id}
                         />
                         {selectedFile && (
-                            <EditorComponent
-                                height='90%'
-                                editorRef={editorRef}
-                                language={getFileLanguage(selectedFile.name)}
-                                value={contentState[selectedFile.id] || ''}
-                                setValue={(newValue) => {
-                                    setContentState(prevState => ({ ...prevState, [selectedFile.id]: newValue }));
-                                }}
-                            />
+                            <Box sx={{ height: 'calc(60% - 40px)', overflow: 'auto' }}>
+                                <EditorComponent
+                                    height='100%'
+                                    editorRef={editorRef}
+                                    language={getFileLanguage(selectedFile.name)}
+                                    value={contentState[selectedFile.id] || ''}
+                                    setValue={(newValue) => {
+                                        setContentState(prevState => ({ ...prevState, [selectedFile.id]: newValue }));
+                                    }}
+                                />
+                            </Box>
                         )}
                     </Stack>
                     <Stack width={fileExplorerOpen ? '25%' : '40%'} gap={1}>

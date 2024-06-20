@@ -6,7 +6,7 @@ const Output = () => {
   return (
     <>
     <Box width="100%" height='100%' sx={{ display:'flex',flexDirection:'column',gap:'4px'}}>
-        <Box width='full' height='30px' sx={{background:'#D6FAFF',padding:'0 10px',display:'flex',justifyContent:'space-between',alignItems:'center'}} >
+        <Box width='100%' height='30px' sx={{background:'#D6FAFF',padding:'0 10px',display:'flex',justifyContent:'space-between',alignItems:'center'}} >
             <Typography>Output: </Typography>
             <CloseIcon/>
             </Box>

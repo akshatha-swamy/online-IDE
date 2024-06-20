@@ -6,7 +6,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import { Box } from '@mui/material';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import CloseIcon from '@mui/icons-material/Close';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+
 
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -31,7 +31,7 @@ const OpenedFiles = ({ files, onFileSelect, onFileClose,selectedFileId}) => {
      margin: 0,
     overflow:'scroll',
     scrollbarWidth:'none',
-      width:'100%' }}>
+    width:'900px' }}>
        {files.map(file=>(
          <Item key={file.id}
          sx={{
