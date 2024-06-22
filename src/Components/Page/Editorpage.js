@@ -11,6 +11,25 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import Input from '../outputAndInput/Input';
 import Output from '../outputAndInput/Output';
 
+const languageMap = {
+    javascript: 'js',
+    python: 'py',
+    java: 'java',
+    c: 'c',
+    cpp: 'cpp',
+    plaintext: 'txt'
+};
+
+
+const getFileLanguageAndExtension = (input) => {
+    if (languageMap[input]) {
+        return languageMap[input];
+    }
+    const extension = input.split('.').pop().toLowerCase();
+    const language = Object.keys(languageMap).find(key => languageMap[key] === extension);
+    return language || 'plaintext';
+};
+
 const Editorpage = () => {
     const initialFile = { id: Date.now(), name: 'Untitled1', type: 'file', content: '', parentId: null };
     const [files, setFiles] = useState([initialFile]);
@@ -19,6 +38,12 @@ const Editorpage = () => {
     const [fileExplorerOpen, setFileExplorerOpen] = useState(true);
     const [contentState, setContentState] = useState({});
     const editorRef = useRef(null);
+    const [examMode, setExamMode] = useState(false);
+    const [previousState, setPreviousState] = useState(null);
+    const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+
+    
+    
 
     const toggleFileExplorer = () => {
         setFileExplorerOpen(prevState => !prevState);
@@ -27,6 +52,41 @@ const Editorpage = () => {
     const handleSelectFile = (file) => {
         handleOpenFile(file);
     };
+
+    const handleExamModeStart = () => {
+
+        setPreviousState({ files, openFiles, selectedFile, fileExplorerOpen, contentState });
+
+        // Initialize a new blank file for exam mode
+        const newFile = {
+            id: 0,
+            name: `Untitled.${getFileLanguageAndExtension(selectedLanguage)}`,
+            language: selectedLanguage,
+            content: ''
+        };
+        setFiles([newFile]);
+        setOpenFiles([newFile]);
+        setSelectedFile(newFile);
+        setFileExplorerOpen(false);
+        setExamMode(true);
+      };
+
+      const handleExamSubmit = () => {
+        if (editorRef.current) {
+          const content = editorRef.current.getValue();
+          console.log('Submitted Exam Content:', content);
+        }
+
+        // Restore previous state after exam mode
+        if (previousState) {
+            setFiles(previousState.files);
+            setOpenFiles(previousState.openFiles);
+            setSelectedFile(previousState.selectedFile);
+            setFileExplorerOpen(previousState.fileExplorerOpen);
+            setContentState(previousState.contentState);
+            setExamMode(false);
+        }
+      };
 
     const handleOpenFile = (file) => {
         console.log('Opening file:', file);
@@ -80,30 +140,18 @@ const Editorpage = () => {
         setOpenFiles(openFiles.map(file => (file.id === fileId ? { ...file, name: newName } : file)));
     };
 
-    const getFileLanguage = (fileName) => {
-        const extension = fileName.split('.').pop().toLowerCase();
-        switch (extension) {
-            case 'js':
-                return 'javascript';
-            case 'py':
-                return 'python';
-            case 'java':
-                return 'java';
-            case 'c':
-                return 'c';
-            case 'cpp':
-                return 'cpp';
-            default:
-                return 'plaintext';
-        }
-    };
+    
 
     return (
         <>
             <Box width='100%' height='100%'>
-                <Navbar onMenuIconClick={toggleFileExplorer} />
+                <Navbar 
+                onMenuIconClick={toggleFileExplorer} 
+                onExamModeStart={handleExamModeStart}
+                onExamSubmit={handleExamSubmit}
+          />
                 <Stack direction='row' spacing={2} width='100%' height='100%'>
-                    {fileExplorerOpen && (
+                    {!examMode && fileExplorerOpen && (
                         <Box width='15%'>
                             <FileExplorer
                                 files={files}
@@ -117,19 +165,28 @@ const Editorpage = () => {
                         </Box>
                     )}
                     <Stack gap={1} flexGrow={1} sx={{ height: '100%' }}>
-                        <LanguageSelector />
+                        {examMode &&
+                        <LanguageSelector setLanguage={setSelectedLanguage}
+                        selectedFile={selectedFile}
+                        updateFileName={handleRenameFile}/>}
+
+                        <Box sx={{marginTop:examMode?0:7}}>
                         <OpenedFiles
                             files={openFiles}
                             onFileSelect={setSelectedFile}
                             onFileClose={handleCloseFile}
                             selectedFileId={selectedFile?.id}
+                            examMode={examMode}
                         />
+                        </Box>
+                        
+                        
                         {selectedFile && (
                             <Box sx={{ height: 'calc(60% - 40px)', overflow: 'auto' }}>
                                 <EditorComponent
                                     height='100%'
                                     editorRef={editorRef}
-                                    language={getFileLanguage(selectedFile.name)}
+                                    language={selectedLanguage}
                                     value={contentState[selectedFile.id] || ''}
                                     setValue={(newValue) => {
                                         setContentState(prevState => ({ ...prevState, [selectedFile.id]: newValue }));
@@ -138,7 +195,7 @@ const Editorpage = () => {
                             </Box>
                         )}
                     </Stack>
-                    <Stack width={fileExplorerOpen ? '25%' : '40%'} gap={1}>
+                    <Stack width={fileExplorerOpen ? '25%' : '40%' } gap={1} >
                         <Box display='flex' justifyContent='space-between'height='10%' alignItems='end' marginBottom='10px'>
                             <Button sx={{ border: 'solid 1px #FD5BE3', width: '88px', height: '32px', color: '#FD5BE3', background: '#FFCAF7', fontSize: '13px', '&:hover': { background: '#FD5BE3', color: 'white' }, '& .css-dezh6x-MuiButtonBase-root-MuiButton-root': { padding: 0 } }}>
                                 Run <PlayArrowIcon sx={{ fontSize: '18px', marginLeft: '7px' }} />

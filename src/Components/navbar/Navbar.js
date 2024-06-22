@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import SettingsIcon from '@mui/icons-material/Settings';
 
-const Navbar = ({ onMenuIconClick }) => {
+const Navbar = ({ onMenuIconClick, onExamModeStart, onExamSubmit}) => {
   const [menuIconSelected, setMenuIconSelected] = useState(false);
   const [projectName, setProjectName] = useState('Untitled');
   const [isEditing, setIsEditing] = useState(false);
@@ -39,6 +39,7 @@ const Navbar = ({ onMenuIconClick }) => {
     try {
       await document.documentElement.requestFullscreen();
       setIsExamMode(true);
+      onExamModeStart();
     } catch (err) {
       alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
     
@@ -49,7 +50,7 @@ const Navbar = ({ onMenuIconClick }) => {
     if (!document.fullscreenElement && isExamMode) {
       alert('You cannot exit fullscreen mode during the exam.');
       document.documentElement.requestFullscreen().catch((err) => {
-        alert(`Error attempting to re-enable full-screen mode: ${err.message} (${err.name})`);
+        alert('Submitting the exam');
         handleExamSubmit();
       });
     }
@@ -60,7 +61,7 @@ const Navbar = ({ onMenuIconClick }) => {
     if (document.hidden && isExamMode) {
       alert('You cannot switch tabs during the exam.');
       document.documentElement.requestFullscreen().catch((err) => {
-        alert(`Error attempting to re-enable full-screen mode: ${err.message} (${err.name})`);
+        alert('Submitting the exam');
         handleExamSubmit();
       });
     }
@@ -71,7 +72,7 @@ const Navbar = ({ onMenuIconClick }) => {
     if (isExamMode) {
       alert('You cannot switch windows during the exam.');
       document.documentElement.requestFullscreen().catch((err) => {
-        alert(`Error attempting to re-enable full-screen mode: ${err.message} (${err.name})`);
+        alert('Submitting the exam');
         handleExamSubmit();
       });
     }
@@ -85,6 +86,7 @@ const Navbar = ({ onMenuIconClick }) => {
       });
     }
     setExamSubmitDialogOpen(false);
+    onExamSubmit();
   };
   
   const handleOpenExamSubmitDialog = () => {
@@ -110,6 +112,7 @@ const Navbar = ({ onMenuIconClick }) => {
       window.removeEventListener('blur', windowBlurHandler);
     };
   }, [isExamMode]);
+
   return (
     <>
       <Box

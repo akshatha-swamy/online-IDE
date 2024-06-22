@@ -3,12 +3,40 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const LanguageSelector = () => {
-    const [language, setlanguage] = useState('javascript');
+const getExtensionFromLanguage = (language) => {
+  switch (language) {
+    case 'javascript':
+      return 'js';
+    case 'python':
+      return 'py';
+    case 'java':
+      return 'java';
+    case 'c':
+      return 'c';
+    case 'cpp':
+      return 'cpp';
+    default:
+      return 'txt';
+  }
+};
+
+const LanguageSelector = ({setLanguage, selectedFile, updateFileName}) => {
+    const [language, setLocalLanguage] = useState('javascript');
 
   const handleChange = (event) => {
-    setlanguage(event.target.value);
+    const selectedLanguage = event.target.value;
+        setLocalLanguage(selectedLanguage);
+        setLanguage(selectedLanguage); 
+
+        if (selectedFile) {
+          const newFileName = `Untitled.${getExtensionFromLanguage(selectedLanguage)}`;
+          updateFileName(selectedFile.id, newFileName);
+      }
+   
   };
+
+
+  
   return (
    <>
    <FormControl sx={{my:'8px', minWidth: 150,width:'150px',border:'#FF5C00',background:'#FFF2EB' }}>
@@ -39,8 +67,8 @@ const LanguageSelector = () => {
           
           <MenuItem value="python">Python</MenuItem>
           <MenuItem value="java">Java</MenuItem>
-          <MenuItem value='c++'>C++</MenuItem>
-          <MenuItem value='c++'>C</MenuItem>
+          <MenuItem value='cpp'>C++</MenuItem>
+          <MenuItem value='c'>C</MenuItem>
         </Select>
         
       </FormControl>

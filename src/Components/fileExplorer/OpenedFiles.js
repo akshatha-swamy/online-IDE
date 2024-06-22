@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
     color: theme.palette.text.secondary,
   }));
 
-const OpenedFiles = ({ files, onFileSelect, onFileClose,selectedFileId}) => {
+const OpenedFiles = ({ files, onFileSelect, onFileClose,selectedFileId,examMode }) => {
   return (
     <>
     <Box display='flex' justifyContent='space-between'>
@@ -45,17 +45,19 @@ const OpenedFiles = ({ files, onFileSelect, onFileClose,selectedFileId}) => {
            width:'auto',
            justifyContent:'space-between',
            bgcolor: selectedFileId === file.id ? '#9AE7FF' : 'white',
-           borderRadius:'0'
+           borderRadius:'0',
          }}
          onClick={() => onFileSelect(file)}>
             <InsertDriveFileIcon sx={{ fontSize: 13,mx:'2px' }} />{file.name} 
-         <CloseIcon
-           sx={{ fontSize: 13,ml:1}}
-           onClick={(e) => {
-             e.stopPropagation();
-             onFileClose(file.id);
-           }}
-         /></Item>
+            {!examMode && (
+                <CloseIcon
+                  sx={{ fontSize: 13, ml: 1 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onFileClose(file.id);
+                  }}
+                />
+              )}</Item>
        ))}
     </Stack>
     <FullscreenIcon sx={{margin:'0 10px'}}/>
