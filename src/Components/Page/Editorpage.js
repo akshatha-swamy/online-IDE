@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Navbar from '../navbar/Navbar';
-import { Box, Stack, Button } from '@mui/material';
+import { Box, Stack, Button,Typography } from '@mui/material';
 import FileExplorer from '../fileExplorer/FileExplorer';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 import OpenedFiles from '../fileExplorer/OpenedFiles';
@@ -140,6 +140,25 @@ const Editorpage = () => {
         setOpenFiles(openFiles.map(file => (file.id === fileId ? { ...file, name: newName } : file)));
     };
 
+    const handleDownload = () => {
+        if (!selectedFile || !contentState[selectedFile.id]) {
+          return;
+        }
+
+        const extension = languageMap[selectedFile.language] || 'txt';
+        const fileName = selectedFile.name.includes('.') 
+          ? selectedFile.name 
+          : `${selectedFile.name}.${extension}`;
+    
+        const element = document.createElement('a');
+        const file = new Blob([contentState[selectedFile.id]], { type: 'text/plain' });
+        element.href = URL.createObjectURL(file);
+        element.download = fileName
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      };
+
     
 
     return (
@@ -179,6 +198,13 @@ const Editorpage = () => {
                             examMode={examMode}
                         />
                         </Box>
+                        {openFiles.length==0 && (
+                            <Box sx={{ textAlign: 'center', marginTop:'20%' }}>
+                            <Typography variant="body1" color="textSecondary">
+                                Please select a file 
+                            </Typography>
+                            </Box>
+                        )}
                         
                         
                         {selectedFile && (
@@ -186,7 +212,7 @@ const Editorpage = () => {
                                 <EditorComponent
                                     height='100%'
                                     editorRef={editorRef}
-                                    language={selectedLanguage}
+                                    language={examMode?selectedLanguage:getFileLanguageAndExtension(selectedFile.name)}
                                     value={contentState[selectedFile.id] || ''}
                                     setValue={(newValue) => {
                                         setContentState(prevState => ({ ...prevState, [selectedFile.id]: newValue }));
@@ -195,23 +221,26 @@ const Editorpage = () => {
                             </Box>
                         )}
                     </Stack>
+                    {openFiles.length>0 && (
                     <Stack width={fileExplorerOpen ? '25%' : '40%' } gap={1} >
-                        <Box display='flex' justifyContent='space-between'height='10%' alignItems='end' marginBottom='10px'>
-                            <Button sx={{ border: 'solid 1px #FD5BE3', width: '88px', height: '32px', color: '#FD5BE3', background: '#FFCAF7', fontSize: '13px', '&:hover': { background: '#FD5BE3', color: 'white' }, '& .css-dezh6x-MuiButtonBase-root-MuiButton-root': { padding: 0 } }}>
-                                Run <PlayArrowIcon sx={{ fontSize: '18px', marginLeft: '7px' }} />
-                            </Button>
-                            <Box paddingRight={2} display='flex' gap={1}>
-                                <FileCopyOutlinedIcon />
-                                <FileDownloadOutlinedIcon />
-                            </Box>
+                    <Box display='flex' justifyContent='space-between'height='10%' alignItems='end' marginBottom='10px'>
+                        <Button sx={{ border: 'solid 1px #FD5BE3', width: '88px', height: '32px', color: '#FD5BE3', background: '#FFCAF7', fontSize: '13px', '&:hover': { background: '#FD5BE3', color: 'white' }, '& .css-dezh6x-MuiButtonBase-root-MuiButton-root': { padding: 0 } }}>
+                            Run <PlayArrowIcon sx={{ fontSize: '18px', marginLeft: '7px' }} />
+                        </Button>
+                        <Box paddingRight={2} display='flex' gap={1}>
+                            {/* <FileCopyOutlinedIcon /> */}
+                            <FileDownloadOutlinedIcon onClick={handleDownload} sx={{cursor:'pointer', '&:hover':{color:'gray'},display:examMode?'none':'block'}} />
                         </Box>
-                        <Box pr={2} height={fileExplorerOpen?'30%':'38%'}>
-                            <Input />
-                        </Box>
-                        <Box pr={2} height='50%'>
-                            <Output />
-                        </Box>
-                    </Stack>
+                    </Box>
+                    <Box pr={2} height={fileExplorerOpen?'30%':'38%'}>
+                        <Input />
+                    </Box>
+                    <Box pr={2} height='50%'>
+                        <Output />
+                    </Box>
+                </Stack>
+                )}
+                    
                 </Stack>
             </Box>
         </>

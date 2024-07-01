@@ -126,7 +126,7 @@ const Navbar = ({ onMenuIconClick, onExamModeStart, onExamSubmit}) => {
           <Box
             display='flex'
             alignItems='center'
-            sx={{ padding: '1px', borderRadius: '2px', cursor: 'pointer', '&:hover': { backgroundColor: '#DDDDDD' } }}
+            sx={{ padding: '1px', borderRadius: '2px', cursor: 'pointer',display:isExamMode?'none':'block', '&:hover': { backgroundColor: '#DDDDDD' } }}
           >
             <IoMenu fontSize='30px' onClick={handleMenuIconClick} />
           </Box>

@@ -60,7 +60,7 @@ const OpenedFiles = ({ files, onFileSelect, onFileClose,selectedFileId,examMode 
               )}</Item>
        ))}
     </Stack>
-    <FullscreenIcon sx={{margin:'0 10px'}}/>
+    {/* <FullscreenIcon sx={{margin:'0 10px'}}/> */}
     </Box>
      
     </>

@@ -12,7 +12,7 @@ const Output = () => {
             </Box>
        <Box width='100%' height='100%' sx={{background:'white',padding:'10px',overflow:'scroll'}}>
        <Box>
-        Click 'Run' to see the Output
+        <Typography>Click 'Run' to see the Output</Typography>
        </Box>
        </Box>
 
