@@ -229,7 +229,7 @@ const FileExplorer = ({ files = [], setFiles, onFileSelect, onFileDelete, select
   };
 
   return (
-    <Box height="100vh" bgcolor="#F5F5F5" pb={1}>
+    <Box  bgcolor="#F5F5F5" pb={1} sx={{height:"100vh"}}>
       <List
         sx={{ width: '100%', maxWidth: 360, height: '100%', '& .css-cveggr-MuiListItemIcon-root': { minWidth: '200px' } , overflow:'scroll',scrollbarWidth:'none'}}
         component="nav"

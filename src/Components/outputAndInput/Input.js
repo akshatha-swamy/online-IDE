@@ -21,13 +21,13 @@ const Input = () => {
             height:'100%',
             '& .MuiOutlinedInput-root': {
                 '& fieldset': {
-                  borderColor: 'transparent', // Default border color
+                  borderColor: 'transparent', 
                 },
                 '&:hover fieldset': {
-                  borderColor: 'transparent', // Hover border color
+                  borderColor: 'transparent', 
                 },
             '&.Mui-focused fieldset': {
-                borderColor: 'transparent', // Focused border color
+                borderColor: 'transparent',
               },
               '& textarea': {
                 height: '100%',
